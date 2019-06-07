@@ -66,5 +66,5 @@ chrome.commands.onCommand.addListener(command => {
     });
   }
 });
-// modified for sivis: keep addin active on url change
+// modified for sivis: remove previous code.
 chrome.browserAction.onClicked.addListener(toggle);
