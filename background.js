@@ -58,6 +58,7 @@ function isSupportedProtocol(urlString) {
   return supportedProtocols.indexOf(url.protocol) != -1;
 }
 
+// modified for sivis: keep addin active on url change
 chrome.commands.onCommand.addListener(command => {
   if(command === "toggle-xpath"){
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
