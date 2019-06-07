@@ -1,4 +1,4 @@
-# svis-chrome
+# sivis-chrome
 
 Chrome addin for sivis.
 
