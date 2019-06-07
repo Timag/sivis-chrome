@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "xPath Finder",
+  "name": "Sivis Helper",
   "description": "Click on any element to get the xPath",
   "homepage_url": "https://github.com/trembacz/xpath-finder",
   "version": "0.9.7",
@@ -16,7 +16,7 @@
   },
   "content_scripts": [{ 
     "all_frames": true,
-    "matches": ["<all_urls>"],
+    "matches": ["<all_urls>"],	
     "js":["inspect.js"]
   }],
   "commands": {
@@ -31,5 +31,5 @@
   "options_ui": {
     "page": "options.html"
   },
-  "permissions": ["activeTab","<all_urls>", "storage"]
+  "permissions": ["tabs","<all_urls>", "storage"]
 }
