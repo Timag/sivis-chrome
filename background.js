@@ -58,7 +58,6 @@ function isSupportedProtocol(urlString) {
   return supportedProtocols.indexOf(url.protocol) != -1;
 }
 
-// modified for sivis: keep addin active on url change
 chrome.commands.onCommand.addListener(command => {
   if(command === "toggle-xpath"){
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
@@ -66,5 +65,16 @@ chrome.commands.onCommand.addListener(command => {
     });
   }
 });
+
+// modified for sivis: keep addin active on url change
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    getActiveTab;
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    if (!tabs[tab.id]) {
+    	toggle(tabs[0]);
+    }
+    });
+});
+
 // modified for sivis: remove previous code.
 chrome.browserAction.onClicked.addListener(toggle);
