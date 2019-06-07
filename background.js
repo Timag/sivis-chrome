@@ -66,6 +66,5 @@ chrome.commands.onCommand.addListener(command => {
     });
   }
 });
-
-chrome.tabs.onUpdated.addListener(getActiveTab);
+// modified for sivis: keep addin active on url change
 chrome.browserAction.onClicked.addListener(toggle);
