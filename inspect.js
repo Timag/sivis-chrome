@@ -16,7 +16,8 @@ var injected = injected || (function() {
         e.preventDefault && e.preventDefault();
         e.stopPropagation && e.stopPropagation();
         if (e.target.id !== this.contentNode) {
-          const XPath = this.getXPath(e.target);
+           // adapted for sivis: added url
+          const XPath = this.getXPath(e.target) + ";" + window.location.href;
           this.XPath = XPath;
           const contentNode = document.getElementById(this.contentNode);
           if (contentNode) {
@@ -117,12 +118,14 @@ var injected = injected || (function() {
       },
   
       addListeners: function() {
-        document.addEventListener('click', this.getData, true);
+        //document.addEventListener('click', this.getData, true);
+        document.addEventListener('contextmenu', this.getData, true);
         this.options.inspector && ( document.addEventListener('mouseover', this.draw) );
       },
   
       removeListeners: function() {
-        document.removeEventListener('click', this.getData, true);
+        //document.removeEventListener('click', this.getData, true);
+        document.removeEventListener('contextmenu', this.getData, true);
         this.options.inspector && ( document.removeEventListener('mouseover', this.draw) );
       },
 
