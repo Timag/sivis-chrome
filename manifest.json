@@ -31,5 +31,5 @@
   "options_ui": {
     "page": "options.html"
   },
-  "permissions": ["tabs","<all_urls>", "storage"]
+  "permissions": ["activeTab","<all_urls>", "storage"]
 }

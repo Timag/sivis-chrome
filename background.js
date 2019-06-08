@@ -3,6 +3,8 @@ chrome = this.browser || this.chrome;
 const inspectFile = 'inspect.js';
 const activeIcon = 'active-64.png';
 const defaultIcon = 'default-64.png';
+// modified for sivis: keep addin active on url change
+var activeAddin = false;
 
 const inspect = {
   toggleActivate: function(id, type, icon) {
@@ -66,15 +68,19 @@ chrome.commands.onCommand.addListener(command => {
   }
 });
 
+
 // modified for sivis: keep addin active on url change
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     getActiveTab;
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    if (!tabs[tab.id]) {
+    if (!tabs[tab.id] & activeAddin) {
     	toggle(tabs[0]);
     }
     });
 });
 
 // modified for sivis: remove previous code.
+chrome.browserAction.onClicked.addListener(function(tab) { 
+  activeAddin = !activeAddin;
+});
 chrome.browserAction.onClicked.addListener(toggle);
