@@ -1,4 +1,23 @@
 var injected = injected || (function() {
+var myxpath = "//a[@class='bigbtn']";
+var XPathGeneralOld = '';
+var XPathRawOld = '';
+
+function HightlightMatches(xpathGeneral, newStyle) {
+  var iteratorGeneral = document.evaluate(xpathGeneral, document, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+  try {
+      var thisNodeGeneral = iteratorGeneral.iterateNext();
+  
+      while (thisNodeGeneral) {
+          thisNodeGeneral.style.outline = newStyle; //"5px dashed blue"
+          thisNodeGeneral = iteratorGeneral.iterateNext();
+      }   
+  }
+  catch (e) {
+      dump( 'Error: Document tree modified during iteration ' + e );
+  }
+}
+
 
     const Inspector = function() {
       this.getData = this.getData.bind(this);
@@ -16,9 +35,27 @@ var injected = injected || (function() {
         e.preventDefault && e.preventDefault();
         e.stopPropagation && e.stopPropagation();
         if (e.target.id !== this.contentNode) {
-           // adapted for sivis: added url
-          const XPath = this.getXPath(e.target) + ";" + window.location.href;
+          
+          // adapted for sivis: added url
+          const XPathRaw = this.getXPath(e.target);
+          const XPath = XPathRaw + ";" + window.location.href;
           this.XPath = XPath;
+        
+          // remove Indexing from xpath  
+          var XPathGeneral = XPathRaw.replace(/\[.*?\]/g, '');
+          
+          if(XPathRawOld != XPathRaw){
+            if(XPathRawOld !== '') HightlightMatches(XPathRawOld, '');
+            XPathRawOld = XPathRaw;
+          }
+          if(XPathGeneralOld != XPathGeneral){
+            if(XPathGeneralOld !== '') HightlightMatches(XPathGeneralOld, '');
+            XPathGeneralOld = XPathGeneral;
+          }
+          HightlightMatches(XPathGeneral, '3px dashed blue');
+          HightlightMatches(XPathRaw, '3px dashed green');
+
+
           const contentNode = document.getElementById(this.contentNode);
           if (contentNode) {
             contentNode.innerText = XPath;
@@ -159,9 +196,9 @@ var injected = injected || (function() {
       },
   
       getXPath: function(el) {
-        if (el.id && this.options.shortid) {
-          return `//*[@id="${el.id}"]`;
-        }
+        //if (el.id && this.options.shortid) {
+        //  return `//*[@id="${el.id}"]`;
+        //}
         const parts = [];
         while (el && el.nodeType === Node.ELEMENT_NODE) {
           let nbOfPreviousSiblings = 0;
@@ -182,6 +219,7 @@ var injected = injected || (function() {
             }
             sibling = sibling.nextSibling;
           }
+          console.log(el.className);
           const prefix = el.prefix ? el.prefix + ":" : "";
           const nth = nbOfPreviousSiblings || hasNextSiblings
                       ? `[${nbOfPreviousSiblings + 1}]` : "";
@@ -204,3 +242,5 @@ var injected = injected || (function() {
 
     return true;
   })();
+
+

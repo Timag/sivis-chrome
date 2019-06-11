@@ -6,6 +6,8 @@ const defaultIcon = 'default-64.png';
 // modified for sivis: keep addin active on url change
 var activeAddin = false;
 
+
+
 const inspect = {
   toggleActivate: function(id, type, icon) {
     this.id = id;
@@ -79,8 +81,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     });
 });
 
-// modified for sivis: remove previous code.
+// modified for sivis: monitor if user enabled or disabled the addin
 chrome.browserAction.onClicked.addListener(function(tab) { 
   activeAddin = !activeAddin;
 });
 chrome.browserAction.onClicked.addListener(toggle);
+
